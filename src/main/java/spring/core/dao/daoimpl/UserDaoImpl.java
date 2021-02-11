@@ -1,6 +1,7 @@
 package spring.core.dao.daoimpl;
 
 import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -41,6 +42,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Optional<User> get(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(User.class, id));
+        } catch (Exception e) {
+            throw new RuntimeException("Something went wrong. Can`t get user by id " + id, e);
+        }
+    }
+
+    @Override
     public List<User> getAll() {
         try (Session session = sessionFactory.openSession()) {
             Query<User> sessionQuery = session.createQuery("FROM User", User.class);
@@ -49,5 +59,4 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException("Something went wrong. Can't get users list", e);
         }
     }
-
 }
