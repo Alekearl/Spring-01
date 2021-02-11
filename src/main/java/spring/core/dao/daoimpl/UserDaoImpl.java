@@ -44,10 +44,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> get(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<User> userQuery =
-                    session.createQuery("FROM User u WHERE u.id = id", User.class);
-            userQuery.setParameter("id", id);
-            return Optional.ofNullable(userQuery.getSingleResult());
+            return Optional.ofNullable(session.get(User.class, id));
         } catch (Exception e) {
             throw new RuntimeException("Something went wrong. Can`t get user by id " + id, e);
         }
@@ -62,5 +59,4 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException("Something went wrong. Can't get users list", e);
         }
     }
-
 }

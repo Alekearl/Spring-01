@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import spring.core.dto.UserResponseDto;
 import spring.core.model.User;
@@ -16,8 +15,8 @@ import spring.core.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private UserMapper userMapper;
-    private UserService userService;
+    private final UserMapper userMapper;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserMapper userMapper, UserService userService) {
@@ -25,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/user/inject", method = RequestMethod.GET)
+    @GetMapping( "/inject")
     public String inject() {
         User userOne = new User();
         userOne.setName("Alice");
@@ -46,7 +45,7 @@ public class UserController {
     @GetMapping
     public List<UserResponseDto> getAll() {
         return userService.listUsers().stream()
-                .map(user -> userMapper.mapToDto(user))
+                .map(userMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }
