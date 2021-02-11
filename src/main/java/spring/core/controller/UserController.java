@@ -25,7 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/user/inject", method = RequestMethod.PUT)
+    @RequestMapping(value = "/user/inject", method = RequestMethod.GET)
     public String inject() {
         User userOne = new User();
         userOne.setName("Alice");
@@ -40,13 +40,13 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserResponseDto getUser(@PathVariable Long userId) {
-        return userMapper.toDto(userService.get(userId));
+        return userMapper.mapToDto(userService.get(userId));
     }
 
     @GetMapping
     public List<UserResponseDto> getAll() {
         return userService.listUsers().stream()
-                .map(user -> userMapper.toDto(user))
+                .map(user -> userMapper.mapToDto(user))
                 .collect(Collectors.toList());
     }
 }
