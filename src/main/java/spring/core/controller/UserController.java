@@ -24,7 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping( "/inject")
+    @GetMapping("/inject")
     public String inject() {
         User userOne = new User();
         userOne.setName("Alice");
