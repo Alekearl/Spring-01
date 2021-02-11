@@ -8,7 +8,7 @@ import spring.core.service.UserMapper;
 @Component
 public class UserMapperImpl implements UserMapper {
     @Override
-    public UserResponseDto toDto(User user) {
+    public UserResponseDto mapToDto(User user) {
         UserResponseDto userDto = new UserResponseDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
